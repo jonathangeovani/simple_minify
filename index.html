@@ -14,10 +14,10 @@
             align-items: center;
             gap: 40px;
             padding-bottom: 50px;
+            font-family: 'Montserrat', sans-serif;
         }
 
         header {
-            font-family: 'Montserrat', sans-serif;
             text-align: center;
         }
 
@@ -64,32 +64,43 @@
     </style>
 </head>
 <body>
-    <script>
-        function minify() {
-            var input = document.getElementById("in").value
-            var minified = input.replaceAll('\n', '')
-            minified = minified.replaceAll('    ', '')
-            document.getElementById('out').innerHTML = minified            
-        }
-
-        function copyText() {
-            var output = document.getElementById('out').innerHTML
-            navigator.clipboard.writeText(output.replaceAll('&gt;','>').replaceAll('&lt;', '<'))
-            alert("Copiado para a Área de Transferência")
-        }
-    </script>
     <header>
         <h1>Simple Minify</h1>
         <p>Copie e cole o código na caixa esquerda. Depois clique em "Minify" para obter o resultado na caixa direita.</p>
-        <p>Dica: Ctrl + Shift + Home, Ctrl + Shift para copiar a Saída</p>
+        <p>Aviso! Comentários não são removidos. Evite comentários em linha única (pois ficarão abertos).</p>
     </header>
     <main>
-        <textarea name="input" id="in">Entrada</textarea>
+        <textarea name="input" id="in" onclick="cleaning()">Entrada</textarea>
         <div class="buttons">
-            <input type="submit" class="button" value="Minify" onclick="minify()">
-            <input type="submit" class="button" value="Copiar Saída" onclick="copyText()">
+            <input type="button" class="button" value="Minify" onclick="minify()">
+            <input type="button" class="button" value="Copiar Saída" onclick="copyText()">
         </div>
         <textarea name="output" id="out">Saída</textarea>
     </main>
+    <script>
+
+        // Minifica o texto
+        function minify() {
+            let input = document.getElementById("in").value;
+            let minified = input.replaceAll('\n', '');
+            minified = minified.replaceAll('    ', '');
+            minified = minified.replaceAll('\t', '');
+            document.getElementById('out').value = minified;
+        }
+
+        // Copia o texto
+        function copyText() {
+            var output = document.getElementById('out').value;
+            navigator.clipboard.writeText(output.replaceAll('&gt;','>').replaceAll('&lt;', '<'));
+            alert("Copiado para a Área de Transferência");
+        }
+
+        // Limpa a caixa de entrada quando clicada
+        function cleaning() {
+            if (document.getElementById("in").value == "Entrada") {
+                document.getElementById("in").value = '';
+            }
+        }
+    </script>
 </body>
 </html>
