@@ -67,7 +67,7 @@
     <header>
         <h1>Simple Minify</h1>
         <p>Copie e cole o código na caixa esquerda. Depois clique em "Minify" para obter o resultado na caixa direita.</p>
-        <p>Aviso! Comentários não são removidos. Evite comentários em linha única (que ficam abertos).</p>
+        <p>Aviso! Otimizado para HTML e CSS. Pode não funcionar adequadamente para algumas linguagens de programação.</p>
     </header>
     <main>
         <textarea name="input" id="in" onclick="cleaning()">Entrada</textarea>
@@ -81,8 +81,17 @@
 
         // Minifica o texto
         function minify() {
-            let input = document.getElementById("in").value;
-            let minified = input.replaceAll('\n', '');
+            const input = document.getElementById("in").value;
+            const inputList = input.split('\n');
+            var minified = [];
+            inputList.forEach(line => {
+                if (line.search('//') > -1) {
+                    minified.push(`${line}\n`);
+                } else {
+                    minified.push(line);
+                }
+            });
+            minified = minified.join(' ');
             minified = minified.replaceAll('    ', '');
             minified = minified.replaceAll('\t', '');
             document.getElementById('out').value = minified;
